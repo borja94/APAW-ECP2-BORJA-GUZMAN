@@ -1,4 +1,4 @@
-package es.upm.miw.apaw.ecp2.borja.guzman.entities;
+package es.upm.miw.apaw.ecp2.borja.guzman.api.entities;
 
 public class Subject {
 

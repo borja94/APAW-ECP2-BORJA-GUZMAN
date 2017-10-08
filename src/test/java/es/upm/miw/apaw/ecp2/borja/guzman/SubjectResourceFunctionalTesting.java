@@ -18,7 +18,7 @@ public class SubjectResourceFunctionalTesting {
 	}
 
 	@Test
-	public void testSubject() {
+	public void testCreateSubject() {
 		this.createSubject();
 	}
 

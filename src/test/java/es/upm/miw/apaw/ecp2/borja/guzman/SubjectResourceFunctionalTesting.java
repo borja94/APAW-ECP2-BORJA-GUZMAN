@@ -1,7 +1,10 @@
 package es.upm.miw.apaw.ecp2.borja.guzman;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import es.upm.miw.apaw.ecp2.borja.guzman.api.daos.DaoFactory;
+import es.upm.miw.apaw.ecp2.borja.guzman.api.daos.memory.DaoMemoryFactory;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.SubjectResource;
 import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpClientService;
 import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpMethod;
@@ -11,6 +14,10 @@ import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpException;
 
 public class SubjectResourceFunctionalTesting {
 
+	@Before
+	public void Before() {
+		DaoFactory.setFactory(new DaoMemoryFactory());
+	}
 	private void createSubject() {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT)
 				.body("Matemáticas:1").build();

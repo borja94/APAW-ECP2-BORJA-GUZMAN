@@ -1,5 +1,6 @@
 package es.upm.miw.apaw.ecp2.borja.guzman.api.resources;
 
+import es.upm.miw.apaw.ecp2.borja.guzman.api.controllers.SubjectController;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.exceptions.FieldsInvalidException;
 
 public class SubjectResource {
@@ -8,6 +9,7 @@ public class SubjectResource {
 
 	public void createSubject(String subject, int course) throws FieldsInvalidException {
 		this.validateFileds(subject, course);
+		new SubjectController().createSubject(subject,course);
 	}
 
 	public void validateFileds(String subject, int course) throws FieldsInvalidException {

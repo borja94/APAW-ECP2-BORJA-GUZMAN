@@ -2,7 +2,7 @@ package es.upm.miw.apaw.ecp2.borja.guzman;
 
 import org.junit.Test;
 
-import es.upm.miw.apaw.ecp2.borja.guzman.api.recources.SubjectResource;
+import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.SubjectResource;
 import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpClientService;
 import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpMethod;
 import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpRequest;
@@ -23,15 +23,27 @@ public class SubjectResourceFunctionalTesting {
 	}
 
 	@Test(expected = HttpException.class)
-	public void testCreateThemeNameEmpty() {
+	public void testCreateTitleAndCourseEmpty() {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT).body("")
 				.build();
 		new HttpClientService().httpRequest(request);
 	}
-
 	@Test(expected = HttpException.class)
-	public void testCreateWithoutThemeName() {
-		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT).build();
+	public void testCreateTitleEmpty() {
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT).body(":2")
+				.build();
+		new HttpClientService().httpRequest(request);
+	}
+	@Test(expected = HttpException.class)
+	public void testCreateCourseEmpty() {
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT).body("Matemáticas:")
+				.build();
+		new HttpClientService().httpRequest(request);
+	}
+	
+	@Test(expected = HttpException.class)
+	public void testCreateWithoutResource() {
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).build();
 		new HttpClientService().httpRequest(request);
 	}
 }

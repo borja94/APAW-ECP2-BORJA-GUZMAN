@@ -53,4 +53,27 @@ public class SubjectResourceFunctionalTesting {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).build();
 		new HttpClientService().httpRequest(request);
 	}
+	
+	@Test
+	public void testReadSubject() {
+		createSubject();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT).
+				path(SubjectResource.ID).expandPath("1").build();
+		new HttpClientService().httpRequest(request);
+	}
+	
+	@Test
+	public void testReadSubjectIdNotFound() {
+		createSubject();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT).
+				path(SubjectResource.ID).expandPath("2").build();
+		new HttpClientService().httpRequest(request);
+	}
+	
+	@Test(expected = HttpException.class)
+	public void testReadSubjectWithoutId() {
+		createSubject();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT).build();
+		new HttpClientService().httpRequest(request);
+	}
 }

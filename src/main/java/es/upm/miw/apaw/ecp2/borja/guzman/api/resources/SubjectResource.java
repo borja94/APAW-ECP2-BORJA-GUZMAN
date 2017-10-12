@@ -5,6 +5,7 @@ import java.util.Optional;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.controllers.SubjectController;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.dtos.SubjectDto;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.exceptions.FieldsInvalidException;
+import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.exceptions.SubjectExistException;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.exceptions.SubjectIdNotFoundException;
 
 public class SubjectResource {
@@ -17,14 +18,17 @@ public class SubjectResource {
     	Optional<SubjectDto> optional =  new SubjectController().readSubject(id);
     	return optional.orElseThrow(()->new SubjectIdNotFoundException(Integer.toString(id)));
     }
-	public void createSubject(String subject, int course) throws FieldsInvalidException {
-		this.validateFileds(subject, course);
-		new SubjectController().createSubject(subject,course);
+	public void createSubject(String title, int course) throws FieldsInvalidException , SubjectExistException {
+		this.validateFileds(title, course);
+		if (new SubjectController().isRepeated(title, course)) {
+			throw new SubjectExistException("title:"+title+",course:"+course);
+		}
+		new SubjectController().createSubject(title,course);
 	}
 
-	public void validateFileds(String subject, int course) throws FieldsInvalidException {
-		if (subject == null || subject.isEmpty()) {
-			throw new FieldsInvalidException(subject);
+	public void validateFileds(String title, int course) throws FieldsInvalidException {
+		if (title == null || title.isEmpty()) {
+			throw new FieldsInvalidException(title);
 		}
 		if (course < 1) {
 			throw new FieldsInvalidException("course");

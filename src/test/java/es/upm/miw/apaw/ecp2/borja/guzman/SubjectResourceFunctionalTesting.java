@@ -18,6 +18,7 @@ public class SubjectResourceFunctionalTesting {
 	public void Before() {
 		DaoFactory.setFactory(new DaoMemoryFactory());
 	}
+
 	private void createSubject() {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT)
 				.body("Matemáticas:1").build();
@@ -35,41 +36,43 @@ public class SubjectResourceFunctionalTesting {
 				.build();
 		new HttpClientService().httpRequest(request);
 	}
+
 	@Test(expected = HttpException.class)
 	public void testCreateTitleEmpty() {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT).body(":2")
 				.build();
 		new HttpClientService().httpRequest(request);
 	}
+
 	@Test(expected = HttpException.class)
 	public void testCreateCourseEmpty() {
-		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT).body("Matemáticas:")
-				.build();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT)
+				.body("Matemáticas:").build();
 		new HttpClientService().httpRequest(request);
 	}
-	
+
 	@Test(expected = HttpException.class)
 	public void testCreateWithoutResource() {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).build();
 		new HttpClientService().httpRequest(request);
 	}
-	
+
 	@Test
 	public void testReadSubject() {
 		createSubject();
-		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT).
-				path(SubjectResource.ID).expandPath("1").build();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT)
+				.path(SubjectResource.ID).expandPath("1").build();
 		new HttpClientService().httpRequest(request);
 	}
-	
-	@Test
+
+	@Test(expected = HttpException.class)
 	public void testReadSubjectIdNotFound() {
 		createSubject();
-		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT).
-				path(SubjectResource.ID).expandPath("2").build();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT)
+				.path(SubjectResource.ID).expandPath("2").build();
 		new HttpClientService().httpRequest(request);
 	}
-	
+
 	@Test(expected = HttpException.class)
 	public void testReadSubjectWithoutId() {
 		createSubject();

@@ -16,6 +16,16 @@ public class Dispatcher {
 	}
 
 	public void doGet(HttpRequest request, HttpResponse response) {
+		try {
+			if (request.isEqualsPath(SubjectResource.SUBJECT+ SubjectResource.ID)) {
+				response.setBody(subjectResource.readTheme(Integer.valueOf(request.paths()[1])).toString());
+				
+			} else {
+				throw new RequestInvalidException(request.getPath());
+			}
+		} catch (Exception e) {
+			responseError(response, e);
+		}
 	}
 
 	public void doPost(HttpRequest request, HttpResponse response) {

@@ -30,6 +30,15 @@ public class SubjectResourceFunctionalTesting {
 	@Test
 	public void testCreateSubject() {
 		this.createSubject();
+		
+	}
+	
+	@Test (expected= HttpException.class)
+	public void testCreateRepitedSubject() {
+		createSubject();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT)
+				.body("Matemáticas:1").build();
+		new HttpClientService().httpRequest(request);
 	}
 
 	@Test(expected = HttpException.class)

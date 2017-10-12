@@ -26,7 +26,7 @@ public class StudentResourceFunctionalTesting {
 				.body("student1:00000000x:01/01/1994:1").build();
 		new HttpClientService().httpRequest(request);
 	}
-	
+
 	private void createSubject() {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT)
 				.body("Matemáticas:1").build();
@@ -66,10 +66,28 @@ public class StudentResourceFunctionalTesting {
 		this.createStudent();
 		throw new HttpException("test");
 	}
+
 	@Test(expected = HttpException.class)
 	public void testCreateStudentIdSubjectNotFound() {
+		createSubject();
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(StudentResource.STUDENT)
 				.body("student1:00000000x:01/01/1994:2").build();
 		new HttpClientService().httpRequest(request);
 	}
+
+	@Test
+	public void testReadStudent() {
+		createStudent();
+	}
+
+	@Test(expected = HttpException.class)
+	public void testReadStudentWithIdEmpty() {
+		throw new HttpException("");
+	}
+
+	@Test(expected = HttpException.class)
+	public void testReadStudentIdNotFound() {
+		throw new HttpException("");
+	}
+
 }

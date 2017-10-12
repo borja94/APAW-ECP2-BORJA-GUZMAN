@@ -100,5 +100,14 @@ public class StudentResourceFunctionalTesting {
 				.path(StudentResource.ID).expandPath("2").build();
 		new HttpClientService().httpRequest(request);
 	}
+	
+	@Test
+	public void testDeleteStudent() {
+		createStudent();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.DELETE).path(StudentResource.STUDENT)
+				.path(StudentResource.ID).expandPath("1").build();
+		new HttpClientService().httpRequest(request);
+		assertEquals("{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\"}",new HttpClientService().httpRequest(request).getBody() );
+	}
 
 }

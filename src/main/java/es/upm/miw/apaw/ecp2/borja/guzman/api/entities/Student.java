@@ -10,18 +10,12 @@ public class Student {
 	private Calendar birthdate;
 	private Subject subject;
 
-	public Student(int id ) {
-		assert id>0;
-		this.id = id;
-	}
-	public Student(int id, String dni, String name, Calendar birthdate, Subject subject) {
-		assert id > 0;
+	public Student( String dni, String name, Calendar birthdate, Subject subject) {
 		assert dni != null;
 		assert name != null;
 		assert birthdate != null;
 		assert subject != null;
 
-		this.setId(id);
 		this.setDni(dni);
 		this.setName(name);
 		this.setBirthDate(birthdate);

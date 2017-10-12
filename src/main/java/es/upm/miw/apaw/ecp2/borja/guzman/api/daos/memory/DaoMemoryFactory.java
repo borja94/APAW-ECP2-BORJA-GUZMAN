@@ -1,11 +1,13 @@
 package es.upm.miw.apaw.ecp2.borja.guzman.api.daos.memory;
 
 import es.upm.miw.apaw.ecp2.borja.guzman.api.daos.DaoFactory;
+import es.upm.miw.apaw.ecp2.borja.guzman.api.daos.StudentDao;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.daos.SubjectDao;
 
 public class DaoMemoryFactory extends DaoFactory {
 
     private SubjectDao subjectDao;
+    private StudentDao studentDao;
 
 
     @Override
@@ -14,6 +16,14 @@ public class DaoMemoryFactory extends DaoFactory {
         	subjectDao = new SubjectDaoMemory();
         }
         return subjectDao;
+    }
+    
+    @Override
+    public StudentDao getStudentDao() {
+        if (studentDao == null) {
+        	studentDao = new StudentDaoMemory();
+        }
+        return studentDao;
     }
 
 }

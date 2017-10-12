@@ -76,7 +76,8 @@ public class Dispatcher {
 	public void doDelete(HttpRequest request, HttpResponse response) {
 		try {
 			if (request.isEqualsPath(StudentResource.STUDENT + SubjectResource.ID)) {
-				response.setBody("{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\"}");
+				String body = studentResource.deleteStudent(Integer.valueOf(request.paths()[1])).toString();
+				response.setBody(body);
 			} else {
 				throw new RequestInvalidException(request.getPath());
 			}

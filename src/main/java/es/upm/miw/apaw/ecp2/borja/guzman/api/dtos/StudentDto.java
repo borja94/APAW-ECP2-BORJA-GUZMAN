@@ -21,6 +21,9 @@ public class StudentDto {
 		this.subject = new SubjectDto(student.getSubject());
 	}
 
+	public StudentDto() {
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -60,9 +63,15 @@ public class StudentDto {
 	public void setSubject(SubjectDto subject) {
 		this.subject = subject;
 	}
+
 	@Override
-    public String toString() {
-		SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-        return "{\"id\":" + id + ",\"name\":\"" + name + "\""+ ",\"dni\":\"" + dni + "\""+ ",\"birthdate\":\"" + format1.format(birthdate.getTime())+ "\""+  ",\"subject\":" + subject.toString() + "}";
-    }
+	public String toString() {
+		if (id == 0 && name.isEmpty() && dni.isEmpty() && birthdate == null && subject == null)
+			return "";
+		else {
+			SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+			return "{\"id\":" + id + ",\"name\":\"" + name + "\"" + ",\"dni\":\"" + dni + "\"" + ",\"birthdate\":\""
+					+ format1.format(birthdate.getTime()) + "\"" + ",\"subject\":" + subject.toString() + "}";
+		}
+	}
 }

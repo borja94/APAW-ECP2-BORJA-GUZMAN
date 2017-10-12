@@ -82,8 +82,9 @@ public class StudentResourceFunctionalTesting {
 		createStudent();
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(StudentResource.STUDENT)
 				.path(StudentResource.ID).expandPath("1").build();
-		new HttpClientService().httpRequest(request);
-		assertEquals("{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\",\"subject\":{\"id\":1,\"course\":\"1\",\"title\":\"Matemáticas\"}}", new HttpClientService().httpRequest(request).getBody());
+		assertEquals(
+				"{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\",\"subject\":{\"id\":1,\"course\":\"1\",\"title\":\"Matemáticas\"}}",
+				new HttpClientService().httpRequest(request).getBody());
 	}
 
 	@Test(expected = HttpException.class)
@@ -100,14 +101,15 @@ public class StudentResourceFunctionalTesting {
 				.path(StudentResource.ID).expandPath("2").build();
 		new HttpClientService().httpRequest(request);
 	}
-	
+
 	@Test
 	public void testDeleteStudent() {
 		createStudent();
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.DELETE).path(StudentResource.STUDENT)
 				.path(StudentResource.ID).expandPath("1").build();
-		new HttpClientService().httpRequest(request);
-		assertEquals("{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\"}",new HttpClientService().httpRequest(request).getBody() );
+		assertEquals(
+				"{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\",\"subject\":{\"id\":1,\"course\":\"1\",\"title\":\"Matemáticas\"}}",
+				new HttpClientService().httpRequest(request).getBody());
 	}
 
 }

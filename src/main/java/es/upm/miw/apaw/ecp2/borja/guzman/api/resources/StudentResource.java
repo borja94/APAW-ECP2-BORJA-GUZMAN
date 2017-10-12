@@ -37,5 +37,10 @@ public class StudentResource {
 			throw new FieldsInvalidException();
 		}
 	}
+	
+	public StudentDto deleteStudent(int id) {
+		return new StudentController().deleteStudent(id);
+		
+	}
 
 }

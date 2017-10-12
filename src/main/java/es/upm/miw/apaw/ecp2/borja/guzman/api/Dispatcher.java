@@ -24,11 +24,13 @@ public class Dispatcher {
 	public void doGet(HttpRequest request, HttpResponse response) {
 		try {
 			if (request.isEqualsPath(SubjectResource.SUBJECT + SubjectResource.ID)) {
-				response.setBody(subjectResource.readTheme(Integer.valueOf(request.paths()[1])).toString());
+				response.setBody(subjectResource.readSubject(Integer.valueOf(request.paths()[1])).toString());
 
 			} else if (request.isEqualsPath(StudentResource.STUDENT + StudentResource.ID)) {
 				response.setBody(studentResource.readStudent(Integer.valueOf(request.paths()[1])).toString());
 
+			} else if (request.isEqualsPath(SubjectResource.SUBJECT + SubjectResource.ID_STUDENT)) {
+				response.setBody(subjectResource.readStudentsBySubject(Integer.valueOf(request.paths()[1])).toString());
 			} else {
 				throw new RequestInvalidException(request.getPath());
 			}

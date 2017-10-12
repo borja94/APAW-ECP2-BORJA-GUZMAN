@@ -26,6 +26,9 @@ public class Dispatcher {
 			if (request.isEqualsPath(SubjectResource.SUBJECT + SubjectResource.ID)) {
 				response.setBody(subjectResource.readTheme(Integer.valueOf(request.paths()[1])).toString());
 
+			} else if (request.isEqualsPath(StudentResource.STUDENT + StudentResource.ID)) {
+				response.setBody(studentResource.readStudent(Integer.valueOf(request.paths()[1])).toString());
+
 			} else {
 				throw new RequestInvalidException(request.getPath());
 			}

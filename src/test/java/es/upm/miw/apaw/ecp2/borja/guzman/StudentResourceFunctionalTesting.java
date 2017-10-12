@@ -1,5 +1,7 @@
 package es.upm.miw.apaw.ecp2.borja.guzman;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +28,7 @@ public class StudentResourceFunctionalTesting {
 				.body("student1:00000000x:01/01/1994:1").build();
 		new HttpClientService().httpRequest(request);
 	}
-	
+
 	private void createSubject() {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT)
 				.body("Matemáticas:1").build();
@@ -66,10 +68,37 @@ public class StudentResourceFunctionalTesting {
 		this.createStudent();
 		throw new HttpException("test");
 	}
+
 	@Test(expected = HttpException.class)
 	public void testCreateStudentIdSubjectNotFound() {
+		createSubject();
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(StudentResource.STUDENT)
 				.body("student1:00000000x:01/01/1994:2").build();
 		new HttpClientService().httpRequest(request);
 	}
+
+	@Test
+	public void testReadStudent() {
+		createStudent();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(StudentResource.STUDENT)
+				.path(StudentResource.ID).expandPath("1").build();
+		new HttpClientService().httpRequest(request);
+		assertEquals("{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\",\"subject\":{\"id\":1,\"course\":\"1\",\"title\":\"Matemáticas\"}}", new HttpClientService().httpRequest(request).getBody());
+	}
+
+	@Test(expected = HttpException.class)
+	public void testReadStudentWithIdEmpty() {
+		createStudent();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(StudentResource.STUDENT).build();
+		new HttpClientService().httpRequest(request);
+	}
+
+	@Test(expected = HttpException.class)
+	public void testReadStudentIdNotFound() {
+		createStudent();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(StudentResource.STUDENT)
+				.path(StudentResource.ID).expandPath("2").build();
+		new HttpClientService().httpRequest(request);
+	}
+
 }

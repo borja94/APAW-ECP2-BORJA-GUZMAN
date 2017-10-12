@@ -1,5 +1,7 @@
 package es.upm.miw.apaw.ecp2.borja.guzman;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -63,6 +65,7 @@ public class SubjectResourceFunctionalTesting {
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT)
 				.path(SubjectResource.ID).expandPath("1").build();
 		new HttpClientService().httpRequest(request);
+        assertEquals("{\"id\":1,\"course\":\"1\",\"title\":\"Matemáticas\"}", new HttpClientService().httpRequest(request).getBody());
 	}
 
 	@Test(expected = HttpException.class)

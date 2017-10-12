@@ -40,6 +40,6 @@ public class SubjectDto {
 	
 	@Override
     public String toString() {
-        return "{\"id\":" + id + ",\"name\":\"" + title + "\"}";
+        return "{\"id\":" + id + ",\"course\":\"" + course + "\""+ ",\"title\":\"" + title + "\"}";
     }
 }

@@ -23,7 +23,7 @@ public class StudentController {
 	}
 
 	public Optional<StudentDto> readStudent(int id) {
-		if(existStudent(id)) {
+		if (existStudent(id)) {
 			return Optional.of(new StudentDto(DaoFactory.getFactory().getStudentDao().read(id)));
 		}
 		return Optional.empty();
@@ -31,5 +31,16 @@ public class StudentController {
 
 	private boolean existStudent(int id) {
 		return DaoFactory.getFactory().getStudentDao().read(id) != null;
+	}
+
+	public StudentDto deleteStudent(int id) {
+		if (existStudent(id)) {
+			StudentDto result = new StudentDto(DaoFactory.getFactory().getStudentDao().read(id));
+			DaoFactory.getFactory().getStudentDao().deleteById(id);
+			return result;
+		} else {
+			return new StudentDto();
+		}
+
 	}
 }

@@ -107,23 +107,29 @@ public class SubjectResourceFunctionalTesting {
 	public void testStudentsListBySubject() {
 		createSubject();
 		createStudents();
-
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT)
+				.path(SubjectResource.ID_STUDENT).expandPath("1").build();
+		new HttpClientService().httpRequest(request);
+		assertEquals("{{\"id\":1,\"course\":2,\"title\":\"matematicas\"},[{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\"},{\"id\":2,\"name\":\"student2\",\"dni\":\"00000001x\"}]}",
+				new HttpClientService().httpRequest(request).getBody());
 	}
 
 	@Test(expected = HttpException.class)
 	public void testStudentsListBySubjectIdNotFound() {
 		createSubject();
 		createStudents();
-		throw new HttpException("");
-
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT)
+				.path(SubjectResource.ID_STUDENT).expandPath("2").build();
+		new HttpClientService().httpRequest(request);
 	}
 
 	@Test(expected = HttpException.class)
 	public void testStudentsListBySubjectWithoutId() {
 		createSubject();
 		createStudents();
-		throw new HttpException("");
-
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT)
+				.path(SubjectResource.ID_STUDENT).build();
+		new HttpClientService().httpRequest(request);
 	}
 
 }

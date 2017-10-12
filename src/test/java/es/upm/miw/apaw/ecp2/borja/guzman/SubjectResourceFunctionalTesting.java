@@ -74,7 +74,6 @@ public class SubjectResourceFunctionalTesting {
 		createSubject();
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT)
 				.path(SubjectResource.ID).expandPath("1").build();
-		new HttpClientService().httpRequest(request);
 		assertEquals("{\"id\":1,\"course\":\"1\",\"title\":\"Matemáticas\"}",
 				new HttpClientService().httpRequest(request).getBody());
 	}
@@ -109,7 +108,6 @@ public class SubjectResourceFunctionalTesting {
 		createStudents();
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(SubjectResource.SUBJECT)
 				.path(SubjectResource.ID_STUDENT).expandPath("1").build();
-		new HttpClientService().httpRequest(request);
 		assertEquals("{{\"id\":1,\"course\":2,\"title\":\"matematicas\"},[{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\"},{\"id\":2,\"name\":\"student2\",\"dni\":\"00000001x\"}]}",
 				new HttpClientService().httpRequest(request).getBody());
 	}

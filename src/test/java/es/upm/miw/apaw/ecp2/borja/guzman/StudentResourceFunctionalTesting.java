@@ -1,5 +1,7 @@
 package es.upm.miw.apaw.ecp2.borja.guzman;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -78,16 +80,25 @@ public class StudentResourceFunctionalTesting {
 	@Test
 	public void testReadStudent() {
 		createStudent();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(StudentResource.STUDENT)
+				.path(StudentResource.ID).expandPath("1").build();
+		new HttpClientService().httpRequest(request);
+		assertEquals("{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\"}", new HttpClientService().httpRequest(request).getBody());
 	}
 
 	@Test(expected = HttpException.class)
 	public void testReadStudentWithIdEmpty() {
-		throw new HttpException("");
+		createStudent();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(StudentResource.STUDENT).build();
+		new HttpClientService().httpRequest(request);
 	}
 
 	@Test(expected = HttpException.class)
 	public void testReadStudentIdNotFound() {
-		throw new HttpException("");
+		createStudent();
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.GET).path(StudentResource.STUDENT)
+				.path(StudentResource.ID).expandPath("2").build();
+		new HttpClientService().httpRequest(request);
 	}
 
 }

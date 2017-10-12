@@ -37,6 +37,7 @@ public class SubjectResource {
 	}
 	
 	public String readStudentsBySubject(int id) throws SubjectIdNotFoundException {
+		new SubjectController().readStudentsBySubject(id);
 		if(id!=1)
 			throw new SubjectIdNotFoundException(Integer.toString(id));
 		return "{{\"id\":1,\"course\":2,\"title\":\"matematicas\"},[{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\"},{\"id\":2,\"name\":\"student2\",\"dni\":\"00000001x\"}]}";

@@ -3,7 +3,10 @@ package es.upm.miw.apaw.ecp2.borja.guzman;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.upm.miw.apaw.ecp2.borja.guzman.api.daos.DaoFactory;
+import es.upm.miw.apaw.ecp2.borja.guzman.api.daos.memory.DaoMemoryFactory;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.StudentResource;
+import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.SubjectResource;
 import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpClientService;
 import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpException;
 import es.upm.miw.apaw.ecp2.borja.guzman.http.HttpMethod;
@@ -14,11 +17,19 @@ public class StudentResourceFunctionalTesting {
 
 	@Before
 	public void before() {
+		DaoFactory.setFactory(new DaoMemoryFactory());
 	}
 
 	private void createStudent() {
+		createSubject();
 		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(StudentResource.STUDENT)
 				.body("student1:00000000x:01/01/1994:1").build();
+		new HttpClientService().httpRequest(request);
+	}
+	
+	private void createSubject() {
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(SubjectResource.SUBJECT)
+				.body("Matemáticas:1").build();
 		new HttpClientService().httpRequest(request);
 	}
 
@@ -54,5 +65,11 @@ public class StudentResourceFunctionalTesting {
 		this.createStudent();
 		this.createStudent();
 		throw new HttpException("test");
+	}
+	@Test(expected = HttpException.class)
+	public void testCreateStudentIdSubjectNotFound() {
+		HttpRequest request = new HttpRequestBuilder().method(HttpMethod.POST).path(StudentResource.STUDENT)
+				.body("student1:00000000x:01/01/1994:2").build();
+		new HttpClientService().httpRequest(request);
 	}
 }

@@ -1,8 +1,10 @@
 package es.upm.miw.apaw.ecp2.borja.guzman.api.resources;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 import es.upm.miw.apaw.ecp2.borja.guzman.api.controllers.StudentController;
+import es.upm.miw.apaw.ecp2.borja.guzman.api.dtos.StudentDto;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.exceptions.FieldsInvalidException;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.exceptions.StudentIdNotFoundException;
 import es.upm.miw.apaw.ecp2.borja.guzman.api.resources.exceptions.SubjectIdNotFoundException;
@@ -20,12 +22,10 @@ public class StudentResource {
 		}
 	}
 
-	public String readStudent(int id) throws StudentIdNotFoundException {
+	public StudentDto readStudent(int id) throws StudentIdNotFoundException {
 		
-		if (id != 1)
-			throw new StudentIdNotFoundException();
-		
-		return "{\"id\":1,\"name\":\"student1\",\"dni\":\"00000000x\",\"birthdate\":\"01/01/1994\"}";
+		Optional<StudentDto> optional = new StudentController().readStudent(id);
+		return optional.orElseThrow(() -> new StudentIdNotFoundException(Integer.toString(id)));
 	}
 
 	public void validateObligatoryFields(String name, String dni, Calendar birthdate) throws FieldsInvalidException {
